@@ -1,4 +1,4 @@
-# Argparse for bash
+# Argument parsing for Bash
 
 Declare allowed flags/options/arguments, parse, and go.
 
@@ -31,10 +31,11 @@ In your own script, e.g., `test.bash` source the file:
 
     . $PROJECT_ROOT/vendor/argparse/libexec/bin/argparse.bash
 
-### Declare allowed flags/options/arguments
+### Declare allowed parameters
 
-Then declare any flags/options/arguments you want your program
-to allow. For instance, to add flags `--verbose` and `--fail-fast`:
+Declare any flags/options/arguments you want your program
+to allow. For instance, to have your program accept
+`--verbose` and `--fail-fast` flags:
 
     flag__id__0="--verbose"
     flag__help__0="Display verbose output?"
@@ -42,7 +43,13 @@ to allow. For instance, to add flags `--verbose` and `--fail-fast`:
     flag__id__1="--fail-fast"
     flag__help__1="Exit on first error?"
 
-Options follow the same pattern (you can set default values too):
+The `flag__id__X` value tells the parser what to look for
+on the command line, and the `flag__help__X` value tells
+the parser what to put in the auto-generated help. The
+number at the ends (e.g. `0` or `1` in this case)
+group them together. 
+
+Options follow the same pattern:
 
     opt__id__0="--username"
     opt__help__0="A username to login with."
@@ -51,7 +58,10 @@ Options follow the same pattern (you can set default values too):
     opt__help__1="A file to write output to."
     opt__value__1="out.log"
 
-Positional arguments follow the same pattern too:
+Note that you can set a default for an option by setting
+a value (e.g., `out.log` for `opt__value__1`).
+
+Positional arguments follow suit:
 
     arg__id__0="identifier"
     arg__help__0="A unique identifier/name."
@@ -63,7 +73,7 @@ You can also provide a description of the program:
 
     command_description="My little utility."
 
-### Parse them
+### Parse
 
 Now you can parse the parameters:
 
